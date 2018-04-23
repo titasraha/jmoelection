@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace JMOElection
 {
-    class Candidate
+    public class Candidate
     {
-        public string Name { get; set; }
         public string Code { get; set; }
+        public string Name { get; set; }        
         public string Description { get; set; }
+        public string PicFile { get; set; }
 
     }
 }

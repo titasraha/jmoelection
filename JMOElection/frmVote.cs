@@ -13,17 +13,18 @@ namespace JMOElection
     public partial class frmVote : Form
     {
         private List<CandidateCtl> candidates = new List<CandidateCtl>();
+        private bool bPreview = false;
 
         public frmVote()
         {
             InitializeComponent();
 
-            for (int i = 0; i < 30; i++)
+            foreach(Candidate candidate in Program.CandidatesConfig)
             {
-                CandidateCtl c = new CandidateCtl();
+                CandidateCtl c = new CandidateCtl(candidate);
                 c.selectionChanged += SelectionChanged;
-                c.CandidateName = "Name: " + i.ToString();
-                c.Code = "Code " + i.ToString();
+                //c.CandidateName = "Name: " + i.ToString();
+                //c.Code = "Code " + i.ToString();
                 //c.SetImage(@"C:\Users\Admin\Desktop\Projects\JMOElection\noimage.png");
                 candidates.Add(c);
             }
@@ -58,6 +59,12 @@ namespace JMOElection
 
             foreach (CandidateCtl g in candidates)
             {
+                if (bPreview && !g.Selected)
+                {
+                    g.Visible = false;
+                    continue;
+                }
+                
                 if (CurX + Width > CanvasWidth)
                 {
                     CurX = LeftMargin;
@@ -68,6 +75,7 @@ namespace JMOElection
                 g.Top = CurY;
                 g.Width = Width;
                 g.Height = Height;
+                g.Visible = true;
                 this.Controls.Add(g);
 
                 CurX += Margin + Width;
@@ -96,6 +104,45 @@ namespace JMOElection
         private void Form1_Click(object sender, EventArgs e)
         {
             RefreshDisplay();
+        }
+
+        private void cmdPreview_Click(object sender, EventArgs e)
+        {
+            cmdPreview.Text = bPreview ? "Preview " : "Go Back";
+            bPreview = !bPreview;
+
+            RefreshDisplay();
+        }
+
+        private void cmdConfirm_Click(object sender, EventArgs e)
+        {
+            string ConfirmString = "";
+            List<Candidate> selections = new List<Candidate>();
+            foreach (CandidateCtl c in candidates)
+                if (c.Selected)
+                {
+                    selections.Add(c.Candidate);
+                    ConfirmString += c.Candidate.Code + " " + c.Candidate.Name + "\n";
+                }
+
+            if (selections.Count == 0)
+            {
+                MessageBox.Show(this, "You have not selected any candidates", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (selections.Count > 10)
+            {
+                MessageBox.Show(this, "Can not select more than 10 candidates");
+                return;
+            }
+
+            if (MessageBox.Show(this, "Are you sure you are voting for the following candidates?\n\n " + ConfirmString, "Please Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+
+            }
+
+            
         }
     }
 }

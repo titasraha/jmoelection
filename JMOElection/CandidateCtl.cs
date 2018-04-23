@@ -16,6 +16,7 @@ namespace JMOElection
         private Color DefaultBackgroundColor;
         public bool Selected { get; set; }
         public event SelectionChanged selectionChanged;
+        public Candidate Candidate { get; private set; }
 
         public string CandidateName
         { 
@@ -65,11 +66,21 @@ namespace JMOElection
 
         }
 
-        public CandidateCtl()
+        public CandidateCtl(Candidate c)
         {
+
             InitializeComponent();
+
+            Candidate = c;
+
             this.DefaultBackgroundColor = this.BackColor;
             this.Selected = false;
+
+            this.CandidateName = "Name: " + c.Name;
+            this.Code = "Code " + c.Code;
+            if (c.PicFile != null)
+                this.SetImage(c.PicFile);
+            
         }
 
         private void chk_CheckedChanged(object sender, EventArgs e)

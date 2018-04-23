@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace JMOElection
 {
     static class Program
@@ -16,7 +17,21 @@ namespace JMOElection
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmVote());
+            if (Config.LoadConfig())
+                Application.Run(new frmVote());
+            else
+            {
+                MessageBox.Show("Unable to load config file");
+                Application.Exit();
+            }
         }
+
+        public static ConfigKeyValue SetupConfig { get; set; }
+        public static ConfigCandidates CandidatesConfig { get; set; } 
+
+
+
+
+
     }
 }
