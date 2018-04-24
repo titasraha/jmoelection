@@ -7,13 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace JMOElection
 {
     public partial class frmVote : Form
     {
         private List<CandidateCtl> candidates = new List<CandidateCtl>();
-        private bool bPreview = false;
+        private bool bAllowVoting = false;
 
         public frmVote()
         {
@@ -23,9 +24,6 @@ namespace JMOElection
             {
                 CandidateCtl c = new CandidateCtl(candidate);
                 c.selectionChanged += SelectionChanged;
-                //c.CandidateName = "Name: " + i.ToString();
-                //c.Code = "Code " + i.ToString();
-                //c.SetImage(@"C:\Users\Admin\Desktop\Projects\JMOElection\noimage.png");
                 candidates.Add(c);
             }
 
@@ -59,11 +57,6 @@ namespace JMOElection
 
             foreach (CandidateCtl g in candidates)
             {
-                if (bPreview && !g.Selected)
-                {
-                    g.Visible = false;
-                    continue;
-                }
                 
                 if (CurX + Width > CanvasWidth)
                 {
@@ -75,23 +68,27 @@ namespace JMOElection
                 g.Top = CurY;
                 g.Width = Width;
                 g.Height = Height;
-                g.Visible = true;
+                g.Visible = bAllowVoting;
+
                 this.Controls.Add(g);
 
                 CurX += Margin + Width;
-
-
             }
+            CurY = CurY + Height + Margin;
+
+            cmdConfirm.Left = LeftMargin;
+            cmdConfirm.Top = CurY;
+            SelectionChanged();
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            RefreshDisplay();
+            AllowVoting(false, "Starting up...");
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-
             RefreshDisplay();
         }
 
@@ -106,23 +103,25 @@ namespace JMOElection
             RefreshDisplay();
         }
 
-        private void cmdPreview_Click(object sender, EventArgs e)
+        private void SubmitVote()
         {
-            cmdPreview.Text = bPreview ? "Preview " : "Go Back";
-            bPreview = !bPreview;
 
-            RefreshDisplay();
+            //using (var f = new StreamWriter(ConfigFileFullName))
+            //{
+            //    string s;
+            //}
         }
 
         private void cmdConfirm_Click(object sender, EventArgs e)
         {
+
             string ConfirmString = "";
             List<Candidate> selections = new List<Candidate>();
             foreach (CandidateCtl c in candidates)
                 if (c.Selected)
                 {
                     selections.Add(c.Candidate);
-                    ConfirmString += c.Candidate.Code + " " + c.Candidate.Name + "\n";
+                    ConfirmString += c.Candidate.Code + " " + c.Candidate.Name + "\r\n";
                 }
 
             if (selections.Count == 0)
@@ -139,10 +138,39 @@ namespace JMOElection
 
             if (MessageBox.Show(this, "Are you sure you are voting for the following candidates?\n\n " + ConfirmString, "Please Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-
+                SubmitVote();
             }
 
             
+        }
+
+        private void AllowVoting(bool allow, string msg)
+        {
+            bAllowVoting = allow;            
+            cmdConfirm.Visible = allow;
+            lblLarge.Text = msg;
+            lblLarge.Visible = !allow;
+            label1.Visible = allow;
+
+            if (!allow)
+                foreach (CandidateCtl g in candidates)
+                    g.Selected = false;
+
+            RefreshDisplay();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
+                AllowVoting(client.AllowVote(1), "Waiting...");
+            }
+            catch (Exception)
+            {
+                AllowVoting(false, "Link Failure");
+            }
+
         }
     }
 }

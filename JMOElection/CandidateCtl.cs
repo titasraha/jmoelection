@@ -13,8 +13,22 @@ namespace JMOElection
     public delegate bool SelectionChanged();
     public partial class CandidateCtl : UserControl
     {
+        private bool _Selected;
+
         private Color DefaultBackgroundColor;
-        public bool Selected { get; set; }
+
+        public bool Selected {
+            get
+            {
+                return _Selected;
+            }
+
+            set
+            {
+                _Selected = value;
+                UpdateUI();
+            }
+        }
         public event SelectionChanged selectionChanged;
         public Candidate Candidate { get; private set; }
 
@@ -51,18 +65,24 @@ namespace JMOElection
 
         public string Description { get; set; }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
-            
+           
+            this.BackColor = this.Selected ? Color.Green : DefaultBackgroundColor;
+
+        }
+
+        private void Toggle()
+        {
             this.Selected = !this.Selected;
-            
+
             if (selectionChanged != null)
             {
                 if (!selectionChanged())
                     this.Selected = !this.Selected;
             }
 
-            this.BackColor = this.Selected ? Color.Green : DefaultBackgroundColor;
+            UpdateUI();
 
         }
 
@@ -85,22 +105,22 @@ namespace JMOElection
 
         private void chk_CheckedChanged(object sender, EventArgs e)
         {
-            UpdateUI();
+            Toggle();
         }
 
         private void pic_Click(object sender, EventArgs e)
         {
-            UpdateUI();
+            Toggle();
         }
 
         private void lbl_Click(object sender, EventArgs e)
         {
-            UpdateUI();
+            Toggle();
         }
 
         private void lbl2_Click(object sender, EventArgs e)
         {
-            UpdateUI();
+            Toggle();
         }
 
         private void CandidateCtl_Load(object sender, EventArgs e)
@@ -110,7 +130,7 @@ namespace JMOElection
 
         private void CandidateCtl_Click(object sender, EventArgs e)
         {
-            UpdateUI();
+            Toggle();
         }
     }
 }

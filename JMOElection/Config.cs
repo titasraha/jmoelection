@@ -38,51 +38,38 @@ namespace JMOElection
             return null;
         }
 
-        public static bool LoadConfig()
+        public static void LoadConfig()
         {
             Config currentConfig = null;
 
-            try
+            using (var f = new StreamReader(ConfigFileFullName))
             {
-                using (var f = new StreamReader(ConfigFileFullName))
+                string s;                    
+
+
+                while ((s = f.ReadLine()) != null)
                 {
-                    string s;                    
+                    if (string.IsNullOrWhiteSpace(s))
+                        continue;
 
-
-                    while ((s = f.ReadLine()) != null)
+                    if (!s.StartsWith("["))
                     {
-                        if (string.IsNullOrWhiteSpace(s))
-                            continue;
+                        if (currentConfig == null)
+                            throw new Exception("No configuration Section");
 
-                        if (!s.StartsWith("["))
-                        {
-                            try
-                            {
-                                if (currentConfig == null)
-                                    throw new Exception("No configuration Section");
-
-                                currentConfig.LoadConfigItem(s);
-                            }
-                            catch(Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                                return false;
-                            }
-                        }
-                        else
-                            currentConfig = GetConfigLoader(s);
+                        currentConfig.LoadConfigItem(s);
                     }
-
+                    else
+                        currentConfig = GetConfigLoader(s);
                 }
+
             }
-            catch
-            { }
 
             if (Program.CandidatesConfig == null || Program.SetupConfig == null)
-            {
-                MessageBox.Show("Setup file is incomplete");
-                return false;
-            }
+                throw new Exception("Setup file is incomplete");
+
+            if (Program.SetupConfig.Booth == 0)
+                throw new Exception("Booth not defined");
 
             // Set absolute path to candidate images
             foreach (Candidate c in Program.CandidatesConfig)
@@ -91,15 +78,11 @@ namespace JMOElection
                 {
                     c.PicFile = System.IO.Path.Combine(Program.SetupConfig.Candidate_Images_Path, c.PicFile);
                     if (!File.Exists(c.PicFile)) // Make sure that the image exists
-                    {
-                        MessageBox.Show("Image not found");
-                        return false;
-                    }
+                        throw new Exception("Image not found");
+
                 }
 
             }
-
-            return true;
 
         }
 

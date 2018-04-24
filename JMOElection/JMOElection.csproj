@@ -49,6 +49,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,6 +72,17 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigCandidates.cs" />
     <Compile Include="ConfigKeyValue.cs" />
+    <Compile Include="Connected Services\JMOServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="frmFinal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFinal.Designer.cs">
+      <DependentUpon>frmFinal.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmVote.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +94,9 @@
     <EmbeddedResource Include="CandidateCtl.resx">
       <DependentUpon>CandidateCtl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmFinal.resx">
+      <DependentUpon>frmFinal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmVote.resx">
       <DependentUpon>frmVote.cs</DependentUpon>
     </EmbeddedResource>
@@ -89,6 +105,13 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\JMOServiceReference\frmController.wsdl" />
+    <None Include="Connected Services\JMOServiceReference\vote.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\JMOServiceReference\vote1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -130,6 +153,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_075_95906.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\JMOServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JMOServiceReference\vote.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JMOServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JMOServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JMOServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

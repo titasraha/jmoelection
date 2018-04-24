@@ -10,6 +10,7 @@ namespace JMOElection
     public class ConfigKeyValue : Config
     {
         public string Candidate_Images_Path { get; private set; }
+        public int Booth { get; private set; }
 
         public ConfigKeyValue()
         {
@@ -32,6 +33,9 @@ namespace JMOElection
                     Candidate_Images_Path = value;
                 else
                     Candidate_Images_Path = System.IO.Path.Combine(Application.StartupPath, value);
+            } else if (key =="booth")
+            {
+                Booth = Convert.ToInt32(value);
             }
 
 

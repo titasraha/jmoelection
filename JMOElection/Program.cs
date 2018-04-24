@@ -17,13 +17,19 @@ namespace JMOElection
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (Config.LoadConfig())
-                Application.Run(new frmVote());
-            else
+            bool bConfigLoaded = false;
+            try
             {
-                MessageBox.Show("Unable to load config file");
-                Application.Exit();
+                Config.LoadConfig();
+                bConfigLoaded = true;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);                
+            }
+            if (bConfigLoaded)
+                Application.Run(new frmVote());
+
         }
 
         public static ConfigKeyValue SetupConfig { get; set; }
