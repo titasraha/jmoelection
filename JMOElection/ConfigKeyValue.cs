@@ -9,12 +9,26 @@ namespace JMOElection
 {
     public class ConfigKeyValue : Config
     {
+        
         public string Candidate_Images_Path { get; private set; }
         public int Booth { get; private set; }
+        public bool IsControllerActive { get; private set; }
+        public string ControllerUrl { get; private set; }
+        public string VoteResultPath { get; private set; }
+        public string VoteResultPathAlt { get; private set; }
 
         public ConfigKeyValue()
         {
             Candidate_Images_Path = Application.StartupPath;
+        }
+
+        private string GetAbsolutePath(string path)
+        {
+            return System.IO.Path.GetFullPath(path);
+            //if (value.StartsWith("\\") || value.Contains(":"))
+            //    Candidate_Images_Path = value;
+            //else
+            //    Candidate_Images_Path = System.IO.Path.Combine(Application.StartupPath, value);
         }
 
         public override void LoadConfigItem(string ConfigItem)
@@ -29,13 +43,22 @@ namespace JMOElection
 
             if (key == "candidate_image_path")
             {
-                if (value.StartsWith("\\") || value.Contains(":"))
-                    Candidate_Images_Path = value;
-                else
-                    Candidate_Images_Path = System.IO.Path.Combine(Application.StartupPath, value);
+                Candidate_Images_Path = GetAbsolutePath(value);
             } else if (key =="booth")
             {
                 Booth = Convert.ToInt32(value);
+            } else if (key == "use_controller")
+            {
+                IsControllerActive = value.ToLower() != "no";
+            } else if (key == "controller")
+            {
+                ControllerUrl = value;
+            } else if (key == "vote_result_path")
+            {
+                VoteResultPath = GetAbsolutePath(value);
+            } else if (key == "vote_result_alt_path")
+            {
+                VoteResultPathAlt = GetAbsolutePath(value);
             }
 
 

@@ -8,13 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing.Printing;
 
 namespace JMOElection
 {
     public partial class frmVote : Form
     {
+
+        private Font verdana10Font;
+        private StreamReader reader;
+        private string CurrentVoteFile;
+
+
         private List<CandidateCtl> candidates = new List<CandidateCtl>();
         private bool bAllowVoting = false;
+        private Random rnd = new Random();
 
         public frmVote()
         {
@@ -78,13 +86,14 @@ namespace JMOElection
 
             cmdConfirm.Left = LeftMargin;
             cmdConfirm.Top = CurY;
+            cmdConfirm.Width = CanvasWidth - LeftMargin * 2;
             SelectionChanged();
 
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            AllowVoting(false, "Starting up...");
+            AllowVoting(!Program.SetupConfig.IsControllerActive, "Starting up...");
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -103,13 +112,39 @@ namespace JMOElection
             RefreshDisplay();
         }
 
-        private void SubmitVote()
+        private void SubmitVote(List<Candidate> selections)
         {
 
-            //using (var f = new StreamWriter(ConfigFileFullName))
-            //{
-            //    string s;
-            //}
+            string RndVoteFilePath;
+            string RndVoteFilePathAlt;
+            int RndValue;
+
+            do
+            {
+                RndValue = rnd.Next(1000, 10000);
+                string RndVoteFile = RndValue.ToString() + ".vote";
+                RndVoteFilePath = Path.Combine(Program.SetupConfig.VoteResultPath, RndVoteFile);
+                RndVoteFilePathAlt = Path.Combine(Program.SetupConfig.VoteResultPathAlt, RndVoteFile);
+            } while (File.Exists(RndVoteFilePath));
+
+
+            string v = "";
+            using (var f = new StreamWriter(RndVoteFilePath))
+            {
+                f.WriteLine("Vote Code: " + RndValue.ToString());
+
+                foreach (Candidate c in selections)
+                {
+                    f.WriteLine(c.Code + ": " + c.Name);
+                    v += c.Code + " " + c.Name + "\r\n";
+                }
+
+            }
+
+            lblVotes.Text = v;
+            lblCode.Text = RndValue.ToString();
+            CurrentVoteFile = RndVoteFilePath;
+            SetState(States.Result, "Vote Captured");
         }
 
         private void cmdConfirm_Click(object sender, EventArgs e)
@@ -138,39 +173,103 @@ namespace JMOElection
 
             if (MessageBox.Show(this, "Are you sure you are voting for the following candidates?\n\n " + ConfirmString, "Please Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                SubmitVote();
+                SubmitVote(selections);
             }
 
             
         }
 
-        private void AllowVoting(bool allow, string msg)
+        private void SetState(States states, string msg)
         {
-            bAllowVoting = allow;            
-            cmdConfirm.Visible = allow;
+            bAllowVoting = states == States.Voting;
+            cmdConfirm.Visible = states == States.Voting;
             lblLarge.Text = msg;
-            lblLarge.Visible = !allow;
-            label1.Visible = allow;
+            lblLarge.Visible = states != States.Voting;
+            label1.Visible = states == States.Voting;
+            panFinal.Visible = states == States.Result;
 
-            if (!allow)
+            if (states == States.Standby)
                 foreach (CandidateCtl g in candidates)
                     g.Selected = false;
 
             RefreshDisplay();
         }
 
+        private void AllowVoting(bool allow, string msg)
+        {
+            SetState(allow ? States.Voting : States.Standby, msg);
+           
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            try
-            {
-                JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
-                AllowVoting(client.AllowVote(1), "Waiting...");
-            }
-            catch (Exception)
-            {
-                AllowVoting(false, "Link Failure");
-            }
+            if (Program.SetupConfig.IsControllerActive)
+                try
+                {
+                    JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
+                    AllowVoting(client.AllowVote(1), "Waiting...");
+                }
+                catch (Exception)
+                {
+                    AllowVoting(false, "Link Failure");
+                }
 
         }
+
+        private void PrintTextFileHandler(object sender, PrintPageEventArgs ppeArgs)
+        {
+            Graphics g = ppeArgs.Graphics;
+            float linesPerPage = 0;            
+            int count = 0;
+
+            float leftMargin = ppeArgs.MarginBounds.Left;
+            float topMargin = ppeArgs.MarginBounds.Top;
+            string line = null;
+            float yPos = topMargin;
+
+
+            linesPerPage = ppeArgs.MarginBounds.Height / verdana10Font.GetHeight(g);
+
+            Font heading = new Font("Verdana", 18);
+            Font subHeading = new Font("Verdana", 14);
+
+            g.DrawString("JM Orchid Apartment Owner's Association", heading, Brushes.Black, leftMargin, yPos, new StringFormat());
+            yPos += heading.GetHeight(g);
+
+            g.DrawString("Election of BOM 2018", subHeading, Brushes.Black, leftMargin, yPos, new StringFormat());
+            yPos += subHeading.GetHeight(g) * 2 ;
+
+            while (count < linesPerPage && ((line = reader.ReadLine()) != null))
+            {
+                //yPos = topMargin + (count * verdana10Font.GetHeight(g));
+                g.DrawString(line, verdana10Font, Brushes.Black, leftMargin, yPos, new StringFormat());
+                yPos += verdana10Font.GetHeight(g);
+                count++;
+            }
+
+            if (line != null)
+                ppeArgs.HasMorePages = true;
+            else
+                ppeArgs.HasMorePages = false;
+        }
+
+        private void cmdPrint_Click(object sender, EventArgs e)
+        {
+            reader = new StreamReader(CurrentVoteFile);
+            verdana10Font = new Font("Verdana", 10);
+            PrintDocument pd = new PrintDocument();
+            pd.PrintPage += new PrintPageEventHandler(this.PrintTextFileHandler);
+
+            pd.Print();
+
+
+            if (reader != null)
+                reader.Close();
+        }
+    }
+
+    public enum States
+    {
+        Standby, Voting, Result
     }
 }

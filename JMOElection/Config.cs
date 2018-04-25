@@ -69,14 +69,25 @@ namespace JMOElection
                 throw new Exception("Setup file is incomplete");
 
             if (Program.SetupConfig.Booth == 0)
-                throw new Exception("Booth not defined");
+                throw new Exception("Booth number not defined");
+
+            if (string.IsNullOrEmpty(Program.SetupConfig.VoteResultPath))
+                throw new Exception("Vote path not set");
+
+            if (string.IsNullOrEmpty(Program.SetupConfig.VoteResultPathAlt))
+                throw new Exception("Alternate Vote path not set");
+
+            Directory.CreateDirectory(Program.SetupConfig.VoteResultPath);
+            
+            Directory.CreateDirectory(Program.SetupConfig.VoteResultPathAlt);
+
 
             // Set absolute path to candidate images
             foreach (Candidate c in Program.CandidatesConfig)
             {
                 if (c.PicFile != null)
                 {
-                    c.PicFile = System.IO.Path.Combine(Program.SetupConfig.Candidate_Images_Path, c.PicFile);
+                    c.PicFile = Path.Combine(Program.SetupConfig.Candidate_Images_Path, c.PicFile);
                     if (!File.Exists(c.PicFile)) // Make sure that the image exists
                         throw new Exception("Image not found");
 
