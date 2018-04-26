@@ -95,6 +95,7 @@ namespace JMOElection
         private void Form1_Load(object sender, EventArgs e)
         {
             AllowVoting(!Program.SetupConfig.IsControllerActive, "Starting up...");
+            DoFeedback();
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -111,6 +112,20 @@ namespace JMOElection
         private void Form1_Click(object sender, EventArgs e)
         {
             RefreshDisplay();
+        }
+
+        private void DoFeedback()
+        {
+            int TotalVotes = Directory.GetFiles(Program.SetupConfig.VoteResultPath, "*.vote", SearchOption.TopDirectoryOnly).Length;
+            try
+            {
+                JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
+                client.VoteFeedback(Program.SetupConfig.Booth, TotalVotes, true);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void SubmitVote(List<Candidate> selections)
@@ -149,16 +164,7 @@ namespace JMOElection
             CurrentVoteFile = RndVoteFilePath;
             SetState(States.Result, "Vote Captured");
 
-            int TotalVotes = Directory.GetFiles(Program.SetupConfig.VoteResultPath, "*.vote", SearchOption.TopDirectoryOnly).Length;
-            try
-            {
-                JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
-                client.VoteFeedback(Program.SetupConfig.Booth, TotalVotes, true);
-            }
-            catch (Exception)
-            {
-
-            }
+            DoFeedback();
 
         }
 
