@@ -22,6 +22,7 @@ namespace JMOElection
 
         private List<CandidateCtl> candidates = new List<CandidateCtl>();
         private bool bAllowVoting = false;
+        private bool bVoteVisible = false;
         private Random rnd = new Random();
 
         public frmVote()
@@ -76,7 +77,7 @@ namespace JMOElection
                 g.Top = CurY;
                 g.Width = Width;
                 g.Height = Height;
-                g.Visible = bAllowVoting;
+                g.Visible = bVoteVisible;
 
                 this.Controls.Add(g);
 
@@ -141,6 +142,8 @@ namespace JMOElection
 
             }
 
+            File.Copy(RndVoteFilePath, RndVoteFilePathAlt);
+
             lblVotes.Text = v;
             lblCode.Text = RndValue.ToString();
             CurrentVoteFile = RndVoteFilePath;
@@ -181,7 +184,8 @@ namespace JMOElection
 
         private void SetState(States states, string msg)
         {
-            bAllowVoting = states == States.Voting;
+            bAllowVoting = states != States.Standby;
+            bVoteVisible = states == States.Voting;
             cmdConfirm.Visible = states == States.Voting;
             lblLarge.Text = msg;
             lblLarge.Visible = states != States.Voting;
@@ -197,6 +201,9 @@ namespace JMOElection
 
         private void AllowVoting(bool allow, string msg)
         {
+            if (bAllowVoting && allow)
+                return;
+
             SetState(allow ? States.Voting : States.Standby, msg);
            
         }
@@ -207,7 +214,7 @@ namespace JMOElection
                 try
                 {
                     JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
-                    AllowVoting(client.AllowVote(1), "Waiting...");
+                    AllowVoting(client.AllowVote(Program.SetupConfig.Booth), "Waiting...");
                 }
                 catch (Exception)
                 {

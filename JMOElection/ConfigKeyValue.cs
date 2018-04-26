@@ -13,7 +13,7 @@ namespace JMOElection
         public string Candidate_Images_Path { get; private set; }
         public int Booth { get; private set; }
         public bool IsControllerActive { get; private set; }
-        public string ControllerUrl { get; private set; }
+        //public string ControllerUrl { get; private set; }
         public string VoteResultPath { get; private set; }
         public string VoteResultPathAlt { get; private set; }
 
@@ -50,10 +50,11 @@ namespace JMOElection
             } else if (key == "use_controller")
             {
                 IsControllerActive = value.ToLower() != "no";
-            } else if (key == "controller")
-            {
-                ControllerUrl = value;
-            } else if (key == "vote_result_path")
+            } //else if (key == "controller")
+            //{
+            //    ControllerUrl = value;
+            //} 
+            else if (key == "vote_result_path")
             {
                 VoteResultPath = GetAbsolutePath(value);
             } else if (key == "vote_result_alt_path")

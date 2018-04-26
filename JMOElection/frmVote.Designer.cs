@@ -37,8 +37,8 @@
             this.lblLarge = new System.Windows.Forms.Label();
             this.cmdPrint = new System.Windows.Forms.Button();
             this.panFinal = new System.Windows.Forms.Panel();
-            this.lblVotes = new System.Windows.Forms.Label();
             this.lblCode = new System.Windows.Forms.Label();
+            this.lblVotes = new System.Windows.Forms.Label();
             this.panFinal.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,17 +122,6 @@
             this.panFinal.Size = new System.Drawing.Size(598, 534);
             this.panFinal.TabIndex = 5;
             // 
-            // lblVotes
-            // 
-            this.lblVotes.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lblVotes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblVotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVotes.ForeColor = System.Drawing.Color.White;
-            this.lblVotes.Location = new System.Drawing.Point(147, 93);
-            this.lblVotes.Name = "lblVotes";
-            this.lblVotes.Size = new System.Drawing.Size(311, 362);
-            this.lblVotes.TabIndex = 5;
-            // 
             // lblCode
             // 
             this.lblCode.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -145,6 +134,17 @@
             this.lblCode.TabIndex = 6;
             this.lblCode.Text = "label2";
             this.lblCode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblVotes
+            // 
+            this.lblVotes.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblVotes.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblVotes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVotes.ForeColor = System.Drawing.Color.White;
+            this.lblVotes.Location = new System.Drawing.Point(147, 93);
+            this.lblVotes.Name = "lblVotes";
+            this.lblVotes.Size = new System.Drawing.Size(311, 362);
+            this.lblVotes.TabIndex = 5;
             // 
             // frmVote
             // 
@@ -159,6 +159,7 @@
             this.Controls.Add(this.cmdConfirm);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
