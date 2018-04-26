@@ -108,11 +108,11 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\JMOServiceReference\frmController.wsdl" />
-    <None Include="Connected Services\JMOServiceReference\vote.xsd">
+    <None Include="Connected Services\JMOServiceReference\JMOVoteService.wsdl" />
+    <None Include="Connected Services\JMOServiceReference\votecontroller.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\JMOServiceReference\vote1.xsd">
+    <None Include="Connected Services\JMOServiceReference\votecontroller1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -161,25 +161,17 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\JMOServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\JMOServiceReference\vote.disco" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Connected Services\JMOServiceReference\votecontroller.disco" />
     <None Include="Connected Services\JMOServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\JMOServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\JMOServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+    <Content Include="if_Election_1934653.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="if_Election_1934653.ico" />
+    <WCFMetadataStorage Include="Connected Services\JMOServiceReference\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -20,6 +20,12 @@ namespace JMOElection.JMOServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJMOVoteService/AllowVote", ReplyAction="http://tempuri.org/IJMOVoteService/AllowVoteResponse")]
         System.Threading.Tasks.Task<bool> AllowVoteAsync(int Booth);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJMOVoteService/VoteFeedback", ReplyAction="http://tempuri.org/IJMOVoteService/VoteFeedbackResponse")]
+        void VoteFeedback(int Booth, int TotalVotes, bool IsVotingOpen);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IJMOVoteService/VoteFeedback", ReplyAction="http://tempuri.org/IJMOVoteService/VoteFeedbackResponse")]
+        System.Threading.Tasks.Task VoteFeedbackAsync(int Booth, int TotalVotes, bool IsVotingOpen);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -55,6 +61,14 @@ namespace JMOElection.JMOServiceReference {
         
         public System.Threading.Tasks.Task<bool> AllowVoteAsync(int Booth) {
             return base.Channel.AllowVoteAsync(Booth);
+        }
+        
+        public void VoteFeedback(int Booth, int TotalVotes, bool IsVotingOpen) {
+            base.Channel.VoteFeedback(Booth, TotalVotes, IsVotingOpen);
+        }
+        
+        public System.Threading.Tasks.Task VoteFeedbackAsync(int Booth, int TotalVotes, bool IsVotingOpen) {
+            return base.Channel.VoteFeedbackAsync(Booth, TotalVotes, IsVotingOpen);
         }
     }
 }

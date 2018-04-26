@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b2650aab-3212-4a1f-ab7a-9861209c575e" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bb474e2f-f5f8-4d15-a642-8ea1341a4e48" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,13 +19,13 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8080/vote" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://localhost:8080/votecontroller" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="frmController.wsdl" MetadataType="Wsdl" ID="03c3376c-fac9-477c-8fee-c1eb6c33e98a" SourceId="1" SourceUrl="http://localhost:8080/vote?wsdl" />
-    <MetadataFile FileName="vote.xsd" MetadataType="Schema" ID="4d59cfce-43fe-4e30-ad33-ed7fac4dddb6" SourceId="1" SourceUrl="http://localhost:8080/vote?xsd=xsd0" />
-    <MetadataFile FileName="vote1.xsd" MetadataType="Schema" ID="1cfe9e1e-cc23-4b2c-9bdf-83958b2af7f9" SourceId="1" SourceUrl="http://localhost:8080/vote?xsd=xsd1" />
-    <MetadataFile FileName="vote.disco" MetadataType="Disco" ID="292bd428-8283-4c03-adc1-7f549e1070ff" SourceId="1" SourceUrl="http://localhost:8080/vote?disco" />
+    <MetadataFile FileName="JMOVoteService.wsdl" MetadataType="Wsdl" ID="c403ee55-f44c-4ed5-b374-0e5c13b537b2" SourceId="1" SourceUrl="http://localhost:8080/votecontroller?wsdl" />
+    <MetadataFile FileName="votecontroller.disco" MetadataType="Disco" ID="088f180b-25b3-4608-ab71-dbd5def4d08c" SourceId="1" SourceUrl="http://localhost:8080/votecontroller?disco" />
+    <MetadataFile FileName="votecontroller.xsd" MetadataType="Schema" ID="82fbef4a-2855-4e8b-8800-224cb14ca817" SourceId="1" SourceUrl="http://localhost:8080/votecontroller?xsd=xsd1" />
+    <MetadataFile FileName="votecontroller1.xsd" MetadataType="Schema" ID="089b040d-a0d0-4c1c-a7d0-edcfb113d94c" SourceId="1" SourceUrl="http://localhost:8080/votecontroller?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

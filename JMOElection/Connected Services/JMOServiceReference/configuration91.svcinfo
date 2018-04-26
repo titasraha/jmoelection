@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="l9WP+fxq+eKXbX7UZYQflNGq5Hs=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="dAUBrJ6Vsde8keaAWKXZSDkALX0=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IJMOVoteService">
       <properties>
@@ -112,10 +112,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IJMOVoteService" contract="JMOServiceReference.IJMOVoteService" bindingType="basicHttpBinding" address="http://localhost:8080/vote" bindingConfiguration="BasicHttpBinding_IJMOVoteService">
+    <endpoint name="BasicHttpBinding_IJMOVoteService" contract="JMOServiceReference.IJMOVoteService" bindingType="basicHttpBinding" address="http://localhost:8080/votecontroller" bindingConfiguration="BasicHttpBinding_IJMOVoteService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>http://localhost:8080/vote</serializedValue>
+          <serializedValue>http://localhost:8080/votecontroller</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

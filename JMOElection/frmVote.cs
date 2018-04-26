@@ -148,6 +148,18 @@ namespace JMOElection
             lblCode.Text = RndValue.ToString();
             CurrentVoteFile = RndVoteFilePath;
             SetState(States.Result, "Vote Captured");
+
+            int TotalVotes = Directory.GetFiles(Program.SetupConfig.VoteResultPath, "*.vote", SearchOption.TopDirectoryOnly).Length;
+            try
+            {
+                JMOServiceReference.JMOVoteServiceClient client = new JMOServiceReference.JMOVoteServiceClient();
+                client.VoteFeedback(Program.SetupConfig.Booth, TotalVotes, true);
+            }
+            catch (Exception)
+            {
+
+            }
+
         }
 
         private void cmdConfirm_Click(object sender, EventArgs e)
@@ -240,7 +252,7 @@ namespace JMOElection
             Font heading = new Font("Verdana", 18);
             Font subHeading = new Font("Verdana", 14);
 
-            g.DrawString("JM Orchid Apartment Owner's Association", heading, Brushes.Black, leftMargin, yPos, new StringFormat());
+            g.DrawString("JM Orchid Apartment Owners Association", heading, Brushes.Black, leftMargin, yPos, new StringFormat());
             yPos += heading.GetHeight(g);
 
             g.DrawString("Election of BOM 2018", subHeading, Brushes.Black, leftMargin, yPos, new StringFormat());
@@ -265,8 +277,7 @@ namespace JMOElection
             reader = new StreamReader(CurrentVoteFile);
             verdana10Font = new Font("Verdana", 10);
             PrintDocument pd = new PrintDocument();
-            pd.PrintPage += new PrintPageEventHandler(this.PrintTextFileHandler);
-
+            pd.PrintPage += new PrintPageEventHandler(this.PrintTextFileHandler);            
             pd.Print();
 
 
