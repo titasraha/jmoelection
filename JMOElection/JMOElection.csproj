@@ -80,12 +80,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="frmFinal.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmFinal.Designer.cs">
-      <DependentUpon>frmFinal.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmVote.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,9 +90,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CandidateCtl.resx">
       <DependentUpon>CandidateCtl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmFinal.resx">
-      <DependentUpon>frmFinal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmVote.resx">
       <DependentUpon>frmVote.cs</DependentUpon>
