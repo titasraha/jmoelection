@@ -34,6 +34,8 @@ namespace JMOElection
                 CandidateCtl c = new CandidateCtl(candidate);
                 c.selectionChanged += SelectionChanged;
                 candidates.Add(c);
+                c.Visible = false;
+                this.Controls.Add(c);
             }
 
         }
@@ -57,13 +59,14 @@ namespace JMOElection
 
         public void RefreshDisplay()
         {
-            int Width = 209, Height = 175;
+            int Width = Program.SetupConfig.Pic_Width, Height = Program.SetupConfig.Pic_Width;
             int Margin = 10;
             int TotalWidth = Width + Margin;
             int CanvasWidth = this.Width;
             int LeftMargin = (CanvasWidth - (TotalWidth * (int)(CanvasWidth / TotalWidth))) / 2, TopMargin = 50;                             
             int CurX = LeftMargin, CurY = TopMargin;
 
+            
             foreach (CandidateCtl g in candidates)
             {
                 
@@ -79,7 +82,7 @@ namespace JMOElection
                 g.Height = Height;
                 g.Visible = bVoteVisible;
 
-                this.Controls.Add(g);
+                
 
                 CurX += Margin + Width;
             }

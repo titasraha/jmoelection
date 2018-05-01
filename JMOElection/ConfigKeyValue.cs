@@ -12,6 +12,8 @@ namespace JMOElection
         
         public string Candidate_Images_Path { get; private set; }
         public int Booth { get; private set; }
+        public int Pic_Width { get; private set; }
+        public int Pic_Height { get; private set; }
         public bool IsControllerActive { get; private set; }
         //public string ControllerUrl { get; private set; }
         public string VoteResultPath { get; private set; }
@@ -20,6 +22,8 @@ namespace JMOElection
         public ConfigKeyValue()
         {
             Candidate_Images_Path = Application.StartupPath;
+            Pic_Width = 179;
+            Pic_Height = 175;
         }
 
         private string GetAbsolutePath(string path)
@@ -50,17 +54,20 @@ namespace JMOElection
             } else if (key == "use_controller")
             {
                 IsControllerActive = value.ToLower() != "no";
-            } //else if (key == "controller")
-            //{
-            //    ControllerUrl = value;
-            //} 
-            else if (key == "vote_result_path")
+            } else if (key == "vote_result_path")
             {
                 VoteResultPath = GetAbsolutePath(value);
             } else if (key == "vote_result_alt_path")
             {
                 VoteResultPathAlt = GetAbsolutePath(value);
+            } else if (key == "pic_width")
+            {
+                Pic_Width = Convert.ToInt32(value);
+            } else if (key == "pic_height")
+            {
+                Pic_Height = Convert.ToInt32(value); 
             }
+
 
 
         }

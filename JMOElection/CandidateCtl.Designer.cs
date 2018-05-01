@@ -37,10 +37,12 @@
             // 
             // lbl
             // 
+            this.lbl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl.Location = new System.Drawing.Point(15, 127);
+            this.lbl.Location = new System.Drawing.Point(0, 134);
             this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(188, 24);
+            this.lbl.Size = new System.Drawing.Size(179, 20);
             this.lbl.TabIndex = 5;
             this.lbl.Text = "label1";
             this.lbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -48,11 +50,14 @@
             // 
             // pic
             // 
+            this.pic.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pic.Image = ((System.Drawing.Image)(resources.GetObject("pic.Image")));
             this.pic.InitialImage = null;
-            this.pic.Location = new System.Drawing.Point(15, 3);
+            this.pic.Location = new System.Drawing.Point(0, 3);
             this.pic.Name = "pic";
-            this.pic.Size = new System.Drawing.Size(179, 121);
+            this.pic.Size = new System.Drawing.Size(179, 128);
             this.pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pic.TabIndex = 3;
             this.pic.TabStop = false;
@@ -60,9 +65,11 @@
             // 
             // lbl2
             // 
-            this.lbl2.Location = new System.Drawing.Point(15, 151);
+            this.lbl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl2.Location = new System.Drawing.Point(0, 154);
             this.lbl2.Name = "lbl2";
-            this.lbl2.Size = new System.Drawing.Size(188, 21);
+            this.lbl2.Size = new System.Drawing.Size(179, 21);
             this.lbl2.TabIndex = 6;
             this.lbl2.Text = "label1";
             this.lbl2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -78,7 +85,7 @@
             this.Controls.Add(this.lbl);
             this.Controls.Add(this.pic);
             this.Name = "CandidateCtl";
-            this.Size = new System.Drawing.Size(209, 175);
+            this.Size = new System.Drawing.Size(179, 175);
             this.Load += new System.EventHandler(this.CandidateCtl_Load);
             this.Click += new System.EventHandler(this.CandidateCtl_Click);
             ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
