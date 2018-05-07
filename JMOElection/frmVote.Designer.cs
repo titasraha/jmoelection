@@ -70,7 +70,7 @@
             this.cmdConfirm.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdConfirm.Image = global::JMOElection.Properties.Resources.if_075_95906;
             this.cmdConfirm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cmdConfirm.Location = new System.Drawing.Point(12, 731);
+            this.cmdConfirm.Location = new System.Drawing.Point(12, 725);
             this.cmdConfirm.Name = "cmdConfirm";
             this.cmdConfirm.Size = new System.Drawing.Size(640, 58);
             this.cmdConfirm.TabIndex = 2;
@@ -152,7 +152,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(664, 801);
+            this.ClientSize = new System.Drawing.Size(664, 788);
             this.ControlBox = false;
             this.Controls.Add(this.panFinal);
             this.Controls.Add(this.lblLarge);

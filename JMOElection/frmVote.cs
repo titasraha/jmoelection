@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing.Printing;
+using System.Security.Cryptography;
+
 
 namespace JMOElection
 {
@@ -147,20 +149,37 @@ namespace JMOElection
             } while (File.Exists(RndVoteFilePath));
 
 
+            MemoryStream mw = new MemoryStream();
+            MD5 md5 = MD5.Create();
+
             string v = "";
-            using (var f = new StreamWriter(RndVoteFilePath))
+            var f = new StreamWriter(mw);  //RndVoteFilePath
+            
+            f.WriteLine("Vote Code: " + RndValue.ToString());
+
+            foreach (Candidate c in selections)
             {
-                f.WriteLine("Vote Code: " + RndValue.ToString());
-
-                foreach (Candidate c in selections)
-                {
-                    f.WriteLine(c.Code + ": " + c.Name);
-                    v += c.Code + " " + c.Name + "\r\n";
-                }
-
+                f.WriteLine(c.Code + ": " + c.Name);
+                v += c.Code + " " + c.Name + "\r\n";
             }
 
-            File.Copy(RndVoteFilePath, RndVoteFilePathAlt);
+            f.Close();
+            byte[] votebytes = mw.ToArray();
+            byte[] hash = md5.ComputeHash(votebytes);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < hash.Length; i++)
+                sb.Append(hash[i].ToString("X2"));
+
+            string tempfile = RndVoteFilePath + ".incomplete";
+
+
+            File.WriteAllBytes(tempfile, votebytes);
+            File.AppendAllText(tempfile, "Hash Code: " + sb.ToString());
+            File.Copy(tempfile, RndVoteFilePathAlt);
+
+            File.Move(tempfile, RndVoteFilePath);
 
             lblVotes.Text = v;
             lblCode.Text = RndValue.ToString();
